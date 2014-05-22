@@ -12,5 +12,54 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require twitter/bootstrap
 //= require turbolinks
 //= require_tree .
+//= require bootstrap-datetimepicker.min
+
+
+
+// $(function() {
+// 	//debugger;
+// 	$("input#meeting_start_time").datetimepicker();
+// });
+
+// $(document).ready(function(){
+//   $('[data-behaviour~=datepicker]').datetimepicker({
+//     language: 'en',
+//     pick12HourFormat: true,
+//     pickSeconds: false
+//   });
+// })
+
+
+  $(function() {
+    $('#datetimepicker').datetimepicker({
+      language: 'en',
+      pick12HourFormat: true,
+      pickSeconds: false
+    });
+  });
+
+  function set_per_page(sel) {
+  	url = updateQueryStringParameter($(location).attr('href'), "per_page", $(sel).val())
+  	window.location = updateQueryStringParameter(url, "page", "1")
+  }
+
+function updateQueryStringParameter(uri, key, value) {
+  var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+  var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+  if (uri.match(re)) {
+    return uri.replace(re, '$1' + key + "=" + value + '$2');
+  }
+  else {
+    return uri + separator + key + "=" + value;
+  }
+}
+
+
+function clear_search() {
+  frm = $("#search-form");
+  $(frm).find("input#search").val("");
+  $(frm).submit();
+}

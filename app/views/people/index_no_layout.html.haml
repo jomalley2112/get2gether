@@ -1,0 +1,20 @@
+
+%table.outer#top-level
+	%thead 
+		%tr 
+			%th Invite
+			%th Name
+			%th Email
+			%th Signup Date
+			 
+	%tbody 
+		/- form_for session[:current_meeting] do |f|
+		= f.fields_for :people do |ff|
+			%tr
+				%td= ff.check_box :_destroy, {:checked => ff.object.persisted?}, '0', '1'
+				%td= ff.label :_destroy, ff.object.full_name
+				%td= ff.object.email
+				%td= ff.object.created_at
+				= ff.hidden_field :person_id
+		/= render partial: 'pagination', locals: { :coll => @people }
+%br/

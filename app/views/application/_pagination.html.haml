@@ -1,0 +1,7 @@
+.pagination
+	= will_paginate coll, renderer: BootstrapPagination::Rails
+	- opts_arr = %w(10 15 20 25 30 40 50 75 100 All).map { |n| [n, n] }
+	%div 
+		= label_tag :per_page, "#{coll.first.class.to_s.pluralize} per page:"
+		&nbsp;
+		= select_tag(:per_page, options_for_select(opts_arr, (@selected_val || @per_page || 25)), :style => "width: 65px", :onchange => "set_per_page(this);")

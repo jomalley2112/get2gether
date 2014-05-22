@@ -7,8 +7,31 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+	<div style="padding: 10px;">
+		<table class="page-top">
+			<tr>
+				<td>
+					<%= link_to("Sign Up!", new_person_registration_path) + " | " unless person_signed_in? %>
+					<% if !person_signed_in? %>
+						<%= link_to("Sign in", new_person_session_path) %>
+					<% else %>
+						<%= link_to("Sign out", destroy_person_session_path, :method => :delete) %>
+					<% end %>
+				</td>
+				<td>
+					<% hidden_inputs_str = hidden_field_tag(:per_page, @per_page)  %>
+					<%= render partial: 'search_form', locals: { hidden_inputs: hidden_inputs_str } %>
+				</td>
+			</tr>
+		</table>
+		
+	</div>
 
-<%= yield %>
+
+<%= render "flash_messages" %>
+<div class="container">
+	<%= yield %>
+</div>
 
 </body>
 </html>

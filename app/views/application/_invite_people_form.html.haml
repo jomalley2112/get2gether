@@ -1,0 +1,21 @@
+
+%table.outer#top-level
+	%thead 
+		%tr 
+			%th Invite
+			%th Name
+			%th Email
+			%th Signup Date
+			 
+	%tbody 
+		/- form_for session[:current_meeting] do |f|
+		= f.fields_for :invites do |ff|
+			%tr
+				/=binding.pry
+				%td= ff.check_box :_destroy, {:checked => ff.object.persisted?}, '0', '1'
+				%td= ff.label :_destroy, ff.object.person.full_name
+				%td= ff.object.person.email
+				%td= Meeting.get_pretty_date_time(ff.object.person.created_at)
+				= ff.hidden_field :person_id
+		/= render partial: 'pagination', locals: { :coll => @people }
+%br/

@@ -1,0 +1,119 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ *= require bootstrap-datetimepicker.min
+ */
+
+/*
+	Add any variables you want to replace here before the call to @import.
+	The LESS variables: http://getbootstrap.com/customize/#less-variables
+	..just need to be converted to SASS. (@font-size-base becomes $font-size-base)
+*/
+
+/*Constants*/
+$dk-brown: #997B6A;
+$lt-clay: #B89784;
+$lt-blue: #86E7E6;
+$steel-blue: #84B8B7;
+$off-white: #CBE6E6;
+/*$tableBackgroundAccent: #FFFFFF;*/
+$altFontFamily: Tahoma;
+
+
+/*Overrides*/
+$link-color: $lt-blue;
+$link-hover-color : darken($link-color, 15%);
+$body-bg: $dk-brown;
+$gray-lighter: lighten(#000, 80%);
+/*$text-color: $gray-light;*/
+/*table-bg-accent: f9f9f9;*/
+/*$table-cell-padding: 8px;*/
+/*$input-height-large: 50px;*/
+
+/*Bootstrap Pagination overrides*/
+$pagination-bg: $gray-lighter;
+$pagination-color: $dk-brown;
+$pagination-active-bg: #000;
+$pagination-hover-border: orange;
+
+
+
+/*Do Not Move This*/
+@import "bootstrap";
+
+
+
+/*Mixins*/
+@mixin tblbasic {
+	width: 750px;
+	background-color: $steel-blue;
+	border-radius: 5px;
+	border: solid 2px $off-white;
+	border-collapse: inherit;
+	border-spacing: 0px;
+}
+
+/*for forms*/
+table.outer { 
+	@include tblbasic;
+	padding: 20px;
+	td {	padding: 5px; }
+}
+
+/*for lists*/
+table.outer-list {
+	@include tblbasic;
+	margin:  15px;
+	tr:nth-child(even) {
+		background-color: $gray-lighter;
+	}
+	thead { 
+		tr {
+			background-color: $gray-light;
+			th { 
+				padding: 5px 0px 5px 5px;  /*top right bottom left*/	
+				border-bottom: solid 2px $off-white;
+				} 
+		}
+		
+	}
+	td {	padding: 5px; }
+}
+
+table.page-top {
+	padding: 20px;
+	width: 800px;
+	/*background-color: $steel-blue;*/
+	border-radius: 5px;
+	td {	padding: 5px; }
+}
+
+.center-align {	text-align: center; }
+/*body {	padding: 20px;}*/
+
+i.clear-search-icon {
+	position: relative;
+	top: -25px;
+	left: -5px;
+}
+i.search-mag-glass {
+	position: relative;
+	left: 26px;
+	font-size: 17px;
+}
+
+/*Bootstrap class Overrides*/
+.pagination ul > .disabled > span {background-color: rgba(255,255,255,0.3);}
+
+.input-append .add-on, .input-prepend .add-on { height: 25px }

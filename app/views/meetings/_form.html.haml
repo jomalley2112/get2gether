@@ -1,0 +1,37 @@
+= form_for setup_meeting(@meeting, @people)  do |f|
+	/= f.hidden_field :organizer_id, :value => "#{current_person.id}"
+	%table.outer 
+		%tr 
+			%td= f.label :descr, "Description"
+			%td= f.text_area :descr, :placholder => "Max 255 chars"
+		%tr
+			%td= f.label :in_start_time, "Start Date/Time"
+
+			%td
+				/ .well 
+				#datetimepicker.input-append{ data: {behaviour: 'datepicker'} }
+					/ %input{"data-format" => "MM/dd/yyyy HH:mm:ss PP", :type => "text"}
+					= f.text_field :in_start_time, { class: "form-control", data: {format: "MM/dd/yyyy HH:mm:ss PP"} }
+					%span.add-on 
+						%i{"data-time-icon" => "icon-time", "date-date-icon" => "icon-calendar"}
+		%tr 
+			%td= f.label :duration
+			%td
+				= f.text_field :duration, { :list => "time-durations" } #should end up being jQuery UI combo box methinks
+				%datalist#time-durations
+					%option{:value => "15"} mins
+					%option{:value => "30"} mins
+					%option{:value => "45"} mins
+					%option{:value => "60"} mins
+		%tr 
+			%td= f.label :location
+			%td= f.text_field :location
+		%tr 
+			%td{:colspan => "2"}Invite People
+		%tr 
+			%td#people{:colspan => "2", :style => "border: solid black 2px"}
+				= render(partial: "invite_people_form", locals: { :f => f }) unless %w(new create).include?(controller.action_name)
+
+		%tr 
+			%td.center-align{:colspan => "2"}
+				= f.submit "Save", { style: "width: 75px", id: "save_meeting_btn" }

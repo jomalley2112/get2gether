@@ -1,0 +1,19 @@
+%h4 People
+
+%table.outer-list#top-level
+	%thead 
+		%tr 
+			%th Name
+			%th Email
+			%th Signup Date
+			 
+	%tbody 
+		- @people.each do |person|
+			%tr 
+				%td= person.full_name
+				%td= person.email
+				%td= Meeting.get_pretty_date_time(person.created_at)
+				
+= render partial: 'pagination', locals: { :coll => @people }
+%br/ 
+/ = link_to "New Person", new_person_path
