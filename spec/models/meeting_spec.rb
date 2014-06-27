@@ -71,7 +71,10 @@ describe Meeting do
       		meeting.save
       		meeting.pretty_start_time.should eq meeting.start_time.strftime('%m/%d/%Y %I:%M:%S %p')
       	end
-        
+        it "returns the end time in an easy to read format" do
+          meeting.save
+          meeting.pretty_end_time.should eq meeting.end_time.strftime('%m/%d/%Y %I:%M:%S %p')
+        end
       end
     end
   end

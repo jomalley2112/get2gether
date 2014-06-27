@@ -33,13 +33,17 @@
 // })
 
 
-  $(function() {
+var ready;
+ready = function() {
     $('#datetimepicker').datetimepicker({
       language: 'en',
       pick12HourFormat: true,
       pickSeconds: false
     });
-  });
+  };
+
+  $(document).ready(ready);
+  $(document).on('page:load', ready); //Strictly for Turbolinks
 
   function set_per_page(sel) {
   	url = updateQueryStringParameter($(location).attr('href'), "per_page", $(sel).val())

@@ -1,12 +1,18 @@
 Rails.application.routes.draw do
   
+  # get 'invites/index'
+  # get 'invites/create'
+  # get 'invites/destroy'
+
   get 'people/index_no_layout' => 'people#index_no_layout', :as => 'index_no_layout'
 
   get "login" => "sessions#new", :as => "login"
   get "signup" => "users#new", :as => "signup"
   
   devise_for :people
-  resources :meetings
+  resources :meetings do
+    resources :invites
+  end
   resources :people
 
   # The priority is based upon order of creation: first created -> highest priority.

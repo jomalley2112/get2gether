@@ -30,25 +30,32 @@ describe "Meetings", :js => false do
     	end
       it "defaults to 25 results per page" do
       	visit root_path
-        #binding.pry
-      	page.first("table#top-level").first("tbody").all("tr").length.should eq 25
+        #page.first("table#top-level").first("tbody").all("tr[id!='pagination-row']").length.should eq 25
+        page.all(:xpath, "//table[@id='top-level']/tbody/tr[not(@id = 'pagination-row')]")
+          .length.should eq 25
         page.first("select#per_page").value.should eq "25"
       end
       it "allows items per page to be passed in" do
       	visit root_path(:per_page => 15)
-      	page.first("table#top-level").first("tbody").all("tr").length.should eq 15
+      	#page.first("table#top-level").first("tbody").all("tr").length.should eq 15
+        page.all(:xpath, "//table[@id='top-level']/tbody/tr[not(@id = 'pagination-row')]")
+          .length.should eq 15
         page.first("select#per_page").value.should eq "15"
       end
       it "allows items per page to be chosen", :js => true do
         visit root_path
         select("50", :from => "Meetings per page:")
-        page.first("table#top-level").first("tbody").all("tr").length.should eq 50
+        #page.first("table#top-level").first("tbody").all("tr").length.should eq 50
+        page.all(:xpath, "//table[@id='top-level']/tbody/tr[not(@id = 'pagination-row')]")
+          .length.should eq 50
         page.first("select#per_page").value.should eq "50"
       end
       it "allows All items per page to be chosen", :js => true do
         visit root_path
         select("All", :from => "Meetings per page:")
-        page.first("table#top-level").first("tbody").all("tr").length.should eq Meeting.count
+        #page.first("table#top-level").first("tbody").all("tr").length.should eq Meeting.count
+        page.all(:xpath, "//table[@id='top-level']/tbody/tr[not(@id = 'pagination-row')]")
+          .length.should eq Meeting.count
         page.first("select#per_page").value.should eq "All"
       end
     end
@@ -82,24 +89,27 @@ describe "Meetings", :js => false do
     end
 
     describe "enter values and save" do
+      let(:start_time) {Time.now + 1.day}
       before(:each) do
-      	fill_in("Description", :with => "My new meeting.")
-        fill_in("Start Date/Time", :with => "05/28/2014 02:56:45 PM")
+        fill_in("Description", :with => "My new meeting.")
+        fill_in("Start Date/Time", :with => Meeting.get_pretty_date_time(start_time))
         fill_in("Duration", :with => "45")
         fill_in("Location", :with => "Conference Room")
         click_button("Save")
       end
 
-      it "redirects to the edit page for the new Meeting" do
+      it "redirects to the edit page for the new Meeting", :js => true do
       	page.first("textarea#meeting_descr").value.should eq "My new meeting."
-      	page.first("input#meeting_in_start_time").value.should eq "05/28/2014 02:56:45 PM"
+        page.first("input#meeting_in_start_time").value.should eq Meeting.get_pretty_date_time(start_time)
       	page.first("input#meeting_duration").value.should eq "45"
       	page.first("input#meeting_location").value.should eq "Conference Room"
-      	page.should have_content("Created meeting successfully.")
+        page.should have_content("Created meeting successfully.")
       end
 
     end
   end
+
+  
 
   describe "assign invites to meeting" do
     pending

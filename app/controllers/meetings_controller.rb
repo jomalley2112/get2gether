@@ -1,7 +1,10 @@
 class MeetingsController < ApplicationController
   def index
     setup_pagination
-    @meetings = Meeting.paginate(:page => params[:page], :per_page => @per_page)
+    @meetings = Meeting.search(
+                  params[:search], ["descr", "location"], "start_time desc", 
+                  @page, @per_page
+                )
   end
 
   def new
@@ -15,10 +18,8 @@ class MeetingsController < ApplicationController
   end
 
   def create
-    #binding.pry
     @meeting = Meeting.new(meeting_params)
     @meeting.organizer = current_person
-    #binding.pry
     if @meeting.save
       flash[:success] = "Created meeting successfully."
       redirect_to edit_meeting_url(@meeting)

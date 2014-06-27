@@ -13,24 +13,24 @@ describe "People" do
 		describe "displays a paginated list of people" do
 			it "defaults to 25 results per page" do
 				visit people_path
-      	page.first("table#top-level").first("tbody").all("tr").length.should eq 25
+      	page.first("table#top-level").first("tbody").all("tr.person").length.should eq 25
       end
       it "allows items per page to be passed in" do
       	visit people_path(:per_page => 15)
-      	page.first("table#top-level").first("tbody").all("tr").length.should eq 15
+      	page.first("table#top-level").first("tbody").all("tr.person").length.should eq 15
       end
       it "allows items per page to be chosen", :js => true do
       	visit people_path
       	select("50", :from => "People per page:")
-      	page.first("table#top-level").first("tbody").all("tr").length.should eq 50
+      	page.first("table#top-level").first("tbody").all("tr.person").length.should eq 50
       	page.first("select#per_page").value.should eq "50"
       end
       it "allows all items to be viewed on a single page", :js => true do
       	visit people_path
       	select("All", :from => "People per page:")
       	#binding.pry
-      	page.first("table#top-level").first("tbody").all("tr").length.should eq Person.count
-      	page.first("select#per_page").value.should eq Person.count
+      	page.first("table#top-level").first("tbody").all("tr.person").length.should eq Person.count
+      	page.first("select#per_page").value.should eq "All"
       end
 		end
 		describe "Search" do

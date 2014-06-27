@@ -2,5 +2,5 @@
 	=hidden_inputs
 	.right-inner-addon 
 		%i.icon-search.search-mag-glass
-		=text_field_tag :search, params[:search], :class => "search-query", :placeholder => "   Search"
-	%i{:title => "Clear Search", :class => "close icon-remove-sign clear-search-icon", :style => "vertical-align: middle; color: black", :onclick => "clear_search();"}
+		=text_field_tag :search, params[:search], :class => "search-query", :placeholder => "Search"
+	%i#clear-search{:title => "Clear Search", :class => "close icon-remove-sign clear-search-icon", :style => "vertical-align: middle; color: black", :onclick => "clear_search();"}

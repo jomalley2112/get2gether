@@ -9,11 +9,12 @@
 			 
 	%tbody 
 		- @people.each do |person|
-			%tr 
+			%tr.person 
 				%td= person.full_name
 				%td= person.email
 				%td= Meeting.get_pretty_date_time(person.created_at)
-				
-= render partial: 'pagination', locals: { :coll => @people }
+		%tr.page-nav
+			%td{:colspan => "3", :style => "text-align: center;"} 		
+				= render partial: 'pagination', locals: { :coll => @people }
 %br/ 
 / = link_to "New Person", new_person_path

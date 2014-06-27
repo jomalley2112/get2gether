@@ -10,11 +10,13 @@
 	%tbody 
 		- @meetings.each do |meeting|
 			%tr 
-				%td= meeting.descr
+				%td= link_to meeting.descr, edit_meeting_path(meeting), :class => "secondary"
 				%td= meeting.location
 				%td{:style => "padding-right: 15px;"}= meeting.pretty_start_time
 				%td= distance_of_time_in_words(meeting.duration.minutes)
 
-= render partial: 'pagination', locals: { :coll => @meetings }
+		%tr#pagination-row
+			%td{:colspan => "4", :style => "text-align: center;"}
+				= render partial: 'pagination', locals: { :coll => @meetings }
 %br/ 
 = link_to "New Meeting", new_meeting_path

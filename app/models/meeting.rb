@@ -1,7 +1,9 @@
 class Meeting < ActiveRecord::Base
 	include DateTimeHelper
+	include Searchable
 
 	DEFAULT_DURATION = 60 #TODO: Move this
+	DEFAULT_START_TIME = Time.now + 1.day
 
 	has_many :invites
 	accepts_nested_attributes_for :invites, allow_destroy: true
@@ -11,20 +13,19 @@ class Meeting < ActiveRecord::Base
 	
 	attr_writer :duration
 	def duration
-		(end_time && start_time) ? ((end_time - start_time) / 1.minute).round : ""
+		(end_time && start_time) ? ((end_time - start_time) / 1.minute).round : DEFAULT_DURATION.to_s
 	end
 
 	attr_writer :in_start_time
 	def in_start_time
 		#convert back to "05/20/2014 03:45:13 PM" format for display
-		return self.start_time ? pretty_start_time : Meeting.get_pretty_date_time
+		return self.start_time ? pretty_start_time : Meeting.get_pretty_date_time(DEFAULT_START_TIME)
 	end
 	
 	validates :organizer, :presence => true #should make sure that organizer (Person) exists
 	validates_presence_of :location
 	validates_datetime :start_time, :after => lambda { DateTime.now }
-	#validates :duration, numericality: { :greater_than => 0 }
-
+	
 
 	before_validation do
 		self.start_time = @in_start_time ? Meeting.parse_pretty_date_time(@in_start_time) : (Time.now + 1.hour)

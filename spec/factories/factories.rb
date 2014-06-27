@@ -7,14 +7,20 @@ FactoryGirl.define do
 	  # start_time "#{Time.now}"
 	  # end_time "#{Time.now}"
 	  # location "MyString"
-
+	  factory :meeting_w_time do
+	  	start_time (Time.now + 1.day)
+	  end
 	end
 
 	factory :person do
 		sequence(:email) { |n| "email_#{n}@mydomain.com" }
 		password "password"
 		password_confirmation "password"
-		last_name Faker::Name.last_name
+		sequence(:last_name) { |n| "SMith ##{n}" } #Faker::Name.last_name
 	end
 
+	factory :invite do
+		meeting
+		person
+	end
 end

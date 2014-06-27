@@ -1,6 +1,7 @@
 /* For the Meeting form*/
 
-$(function() {
+var ready;
+ready = function() {
   dis_enable_btn($("input#save_meeting_btn"));
   $("input#meeting_location").keyup(function() {
     dis_enable_btn($("input#save_meeting_btn"));
@@ -10,7 +11,9 @@ $(function() {
   /*if ($(location).attr('href').indexOf("/meetings/new") > -1 || /\/meetings\/\d*\/edit/.test($(location).attr('href'))) {
    draw_people_html(); 
   }*/
-})
+};
+$(document).ready(ready);
+$(document).on('page:load', ready); //Strictly for Turbolinks
 
 function dis_enable_btn(btn) {
   if ($("input#meeting_location").val() == "") {

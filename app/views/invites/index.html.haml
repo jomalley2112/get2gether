@@ -1,0 +1,26 @@
+%h4 
+	Invite potential attendees to the
+	%div.val-text= @meeting.pretty_start_time
+	meeting located in
+	%div.val-text= @meeting.location
+	%div.descr= "(#{@meeting.descr})"
+%div= link_to "Edit Meeting", edit_meeting_path(@meeting)
+%table.outer-list#top-level
+	%thead 
+		%tr 
+			%th Invite
+			%th Name
+			%th Email
+			%th Signup Date
+			 
+	%tbody 
+		- @people.each do |person|
+			%tr
+				%td.invite-cb= check_box_tag person.id, nil, !person.invite_id.nil?, {:onchange => "invite_cb_changed(this, '#{person.id}', '#{@meeting.id}', '#{person.invite_id}');"}
+				%td= label_tag person.id, person.full_name
+				%td= person.email
+				%td= person.created_at.strftime("%m/%d/%Y")
+		%tr 
+			%td{:colspan => "4", :style => "text-align: center;"}
+				= render partial: 'pagination', locals: { :coll => @people }
+%br/
